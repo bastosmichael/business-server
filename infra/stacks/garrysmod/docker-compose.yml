@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   garrysmod-server:
-    image: cm2network/gmod-server:latest
+    image: ceifa/garrysmod:latest
     container_name: garrysmod-server
     restart: unless-stopped
     ports:
@@ -10,10 +10,9 @@ services:
       - "27018:27018/udp"
       - "27008:27008/udp"
     environment:
-      - SRCDS_PORT=27018
-      - SRCDS_TV_PORT=27008
-      - SRCDS_MAP=gm_construct
-      - SRCDS_MAXPLAYERS=24
+      - GMOD_PORT=27018
+      - GMOD_MAP=gm_construct
+      - GMOD_MAXPLAYERS=24
     volumes:
       - gmod_data:/home/steam/gmod-dedicated
 
