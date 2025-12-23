@@ -1,6 +1,6 @@
 terraform {
   required_version = ">= 1.0"
-  
+
   required_providers {
     null = {
       source  = "hashicorp/null"
@@ -35,7 +35,7 @@ resource "null_resource" "bootstrap_docker" {
 
       # Enable docker at boot
       # "sudo systemctl enable --now docker",
-      
+
       # Ensure current user is in docker group (requires relogin, but good for future)
       # "sudo usermod -aG docker $USER || true",
 
