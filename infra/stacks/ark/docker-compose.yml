@@ -4,6 +4,8 @@ services:
   ark-server:
     image: mschnitzer/asa-linux-server:latest
     container_name: ark-server
+    tty: true
+    stdin_open: true
     restart: unless-stopped
     ports:
       - "7777:7777/udp"
