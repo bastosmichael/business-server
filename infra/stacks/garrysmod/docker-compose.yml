@@ -6,10 +6,12 @@ services:
     container_name: garrysmod-server
     restart: unless-stopped
     ports:
-      - "27015:27015/tcp"
-      - "27015:27015/udp"
-      - "27005:27005/udp"
+      - "27018:27018/tcp"
+      - "27018:27018/udp"
+      - "27008:27008/udp"
     environment:
+      - SRCDS_PORT=27018
+      - SRCDS_TV_PORT=27008
       - SRCDS_MAP=gm_construct
       - SRCDS_MAXPLAYERS=24
     volumes:

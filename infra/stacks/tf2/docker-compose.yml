@@ -6,9 +6,10 @@ services:
     container_name: tf2-server
     restart: unless-stopped
     ports:
-      - "27015:27015/tcp"
-      - "27015:27015/udp"
+      - "27017:27017/tcp"
+      - "27017:27017/udp"
     environment:
+      - SRCDS_PORT=27017
       - SRCDS_TOKEN=
       - SRCDS_HOSTNAME=Team Fortress 2 Server
       - SRCDS_MAXPLAYERS=24
