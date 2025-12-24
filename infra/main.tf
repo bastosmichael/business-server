@@ -144,6 +144,8 @@ resource "null_resource" "deploy_stacks" {
         # Configure Firewall (UFW)
         echo "Configuring Firewall..."
         sudo ufw allow 22/tcp  # SSH
+        sudo ufw allow 80/tcp  # HTTP (reverse proxies / direct web access)
+        sudo ufw allow 443/tcp # HTTPS (reverse proxies / direct web access)
         sudo ufw allow 8000/tcp # Portainer
         sudo ufw allow 9000/tcp # Portainer
         sudo ufw allow 11434/tcp # Ollama
