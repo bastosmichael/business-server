@@ -232,6 +232,14 @@ EOF
         sudo sed -e "s/__CS2_GSLT__/${var.cs2_gslt}/g" /tmp/cs2.docker-compose.yml | sudo tee /opt/cs2/docker-compose.yml >/dev/null
         sudo rm -f /tmp/cs2.docker-compose.yml
 
+        # Configure Plex Media Storage
+        if [ -d "/mnt/coldstore" ]; then
+            echo "Coldstore detected. Pointing Plex media to /mnt/coldstore..."
+            sudo sed -i 's|/opt/plex/media:/media|/mnt/coldstore:/media|' /opt/plex/docker-compose.yml
+        else
+            echo "No coldstore detected. Keeping default /opt/plex/media."
+        fi
+
         # Deploy Stacks
         ${var.enable_portainer ? "cd /opt/portainer && (sudo docker rm -f portainer || true) && retry sudo docker compose up -d" : "echo 'Skipping Portainer'"}
         ${var.enable_ollama ? "cd /opt/ollama && (sudo docker rm -f ollama || true) && retry sudo docker compose up -d && sleep 10 && retry sudo docker exec ollama ollama pull tinyllama && retry sudo docker exec ollama ollama pull starcoder:1b" : "echo 'Skipping Ollama'"}
