@@ -175,7 +175,40 @@ resource "null_resource" "deploy_stacks" {
 
         # Move files to correct locations
         sudo mv /tmp/portainer.docker-compose.yml /opt/portainer/docker-compose.yml
-        sudo mv /tmp/ollama.docker-compose.yml /opt/ollama/docker-compose.yml
+        
+        # Configure Ollama with GPU support if NVIDIA GPU is present
+        if command -v nvidia-smi &> /dev/null; then
+          echo "NVIDIA GPU detected. Enabling GPU support for Ollama..."
+          cat <<EOF | sudo tee /opt/ollama/docker-compose.yml > /dev/null
+version: '3.8'
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  ollama_data:
+EOF
+          # Clean up the temp CPU File
+          sudo rm -f /tmp/ollama.docker-compose.yml
+        else
+          echo "No NVIDIA GPU detected. Using CPU mode for Ollama."
+          sudo mv /tmp/ollama.docker-compose.yml /opt/ollama/docker-compose.yml
+        fi
+
         sudo mv /tmp/rust.docker-compose.yml /opt/rust-server/docker-compose.yml
         sudo mv /tmp/ark.docker-compose.yml /opt/ark/docker-compose.yml
         sudo mv /tmp/minecraft.docker-compose.yml /opt/minecraft/docker-compose.yml
