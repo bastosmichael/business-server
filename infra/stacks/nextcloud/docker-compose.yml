@@ -15,7 +15,7 @@ services:
       - REDIS_HOST=nextcloud-redis
       - REDIS_HOST_PASSWORD=nextcloud
     ports:
-      - "8080:80"
+      - "0.0.0.0:8080:80"
     volumes:
       - /opt/nextcloud/html:/var/www/html
     restart: unless-stopped

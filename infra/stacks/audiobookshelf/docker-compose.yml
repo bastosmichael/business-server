@@ -9,7 +9,7 @@ services:
       - PUID=1000
       - PGID=1000
     ports:
-      - "13378:80"
+      - "0.0.0.0:13378:80"
     volumes:
       - audiobookshelf_config:/config
       - audiobookshelf_metadata:/metadata

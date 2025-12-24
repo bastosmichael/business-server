@@ -148,6 +148,7 @@ resource "null_resource" "deploy_stacks" {
         sudo ufw allow 443/tcp # HTTPS (reverse proxies / direct web access)
         sudo ufw allow 8000/tcp # Portainer
         sudo ufw allow 9000/tcp # Portainer
+        sudo ufw allow 3000/tcp # Open WebUI / dashboards
         sudo ufw allow 11434/tcp # Ollama
         sudo ufw allow 32400/tcp # Plex
         sudo ufw allow 8096/tcp  # Jellyfin

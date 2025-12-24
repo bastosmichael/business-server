@@ -67,8 +67,7 @@ infra/            # Terraform configuration
    * **Audiobookshelf:** `http://<server-ip>:13378`
    * **Nextcloud:** `http://<server-ip>:8080`
 
-   Terraform's remote bootstrap automatically opens UFW for HTTP/HTTPS (80/443) plus each enabled media port above so the service
-s are reachable externally.
+   Terraform's remote bootstrap automatically opens UFW for HTTP/HTTPS (80/443), Open WebUI (3000), and every published media port above so the services bind to `0.0.0.0` and remain reachable externally.
 
    Media stacks auto-mount `/mnt/coldstore` for their libraries if that directory exists; otherwise they fall back to the default `/opt/<service>` paths included in the Compose files.
 
