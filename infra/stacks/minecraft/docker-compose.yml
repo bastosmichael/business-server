@@ -12,7 +12,8 @@ services:
       - VERSION=LATEST
       - DIFFICULTY=normal
       - SPAWN_MONSTERS=false
-      - VIEW_DISTANCE=16
+      - VIEW_DISTANCE=12
+      - TYPE=PAPER
     volumes:
       - minecraft_data:/data
 
