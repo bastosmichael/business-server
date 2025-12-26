@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  xonotic-server:
+    image: ich777/xonotic:latest
+    container_name: xonotic-server
+    restart: unless-stopped
+    ports:
+      - "26000:26000/udp"
+    environment:
+      - UID=1000
+      - GID=1000
+      - GAME_PARAMS=+serverconfig server.cfg
+    volumes:
+      - xonotic_data:/serverdata/serverfiles
+
+volumes:
+  xonotic_data:

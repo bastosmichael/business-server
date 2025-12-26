@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  teeworlds-server:
+    image: ich777/teeworldsserver:latest
+    container_name: teeworlds-server
+    restart: unless-stopped
+    ports:
+      - "8303:8303/udp"
+    environment:
+      - UID=1000
+      - GID=1000
+      - GAME_CONFIG=server.cfg
+    volumes:
+      - teeworlds_data:/serverdata/serverfiles
+
+  ddnet-server:
+    image: chillerdragon/ddnet-simple:latest
+    container_name: ddnet-server
+    restart: unless-stopped
+    ports:
+      - "8304:8303/udp"
+    volumes:
+      - ddnet_data:/home/ddnet/.ddnet
+
+volumes:
+  teeworlds_data:
+  ddnet_data:
