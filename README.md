@@ -23,7 +23,7 @@ infra/            # Terraform configuration
     satisfactory/ factorio/ eco/ space_engineers/ starbound/ aoe2de/ palworld/ arma3/
     minetest/ openrct2/ openttd/ zeroad/ openra/ teeworlds/ xonotic/ ioquake3/
     # Media & tooling
-    portainer/ ollama/ plex/
+    portainer/ ollama/ plex/ jellyfin/ immich/ navidrome/ audiobookshelf/ nextcloud/
 ```
 
 ## Deployment
@@ -40,6 +40,11 @@ infra/            # Terraform configuration
      -var="enable_portainer=true" \
      -var="enable_ollama=true" \
      -var="enable_plex=true" \
+     -var="enable_jellyfin=true" \
+     -var="enable_immich=true" \
+     -var="enable_navidrome=true" \
+     -var="enable_audiobookshelf=true" \
+     -var="enable_nextcloud=true" \
      -var="enable_rust=true" \
      -var="enable_ark=true" \
      -var="enable_cs2=true" \
@@ -73,15 +78,24 @@ infra/            # Terraform configuration
    * **Portainer:** `http://<server-ip>:9000`
    * **Ollama/Open WebUI:** `http://<server-ip>:3000` (if enabled)
    * **Plex:** `http://<server-ip>:32400/web`
+   * **Jellyfin:** `http://<server-ip>:8096`
+   * **Immich:** `http://<server-ip>:2283`
+   * **Navidrome:** `http://<server-ip>:4533`
+   * **Audiobookshelf:** `http://<server-ip>:13378`
+   * **Nextcloud:** `http://<server-ip>:8080`
+
+   Terraform's remote bootstrap automatically opens UFW for HTTP/HTTPS (80/443), Open WebUI (3000), and every published media port above so the services bind to `0.0.0.0` and remain reachable externally.
+
+   Media stacks auto-mount `/mnt/coldstore` for their libraries if that directory exists; otherwise they fall back to the default `/opt/<service>` paths included in the Compose files.
 
 3. **Game Server Catalog & Connection Info:** (links go to the official game pages and the ports reflect the Terraform Docker Compose stacks.)
 
    | Game | Ports to Expose (host side) | How to Join from the Game Client |
    | --- | --- | --- |
-   | [Rust](https://rust.facepunch.com/) | Game: `<server-ip>:28015`, RCON: `<server-ip>:28016` | Press ``F1`` to open the console, run `connect <server-ip>:28015`, and use RCON tools pointed at port 28016 if needed. |
+   | [Rust](https://rust.facepunch.com/) | Game: `<server-ip>:28015`, Query/RCON: `<server-ip>:28016` (UDP/TCP) | Press ``F1`` to open the console, run `connect <server-ip>:28015`. |
    | [ARK: Survival Evolved](https://store.steampowered.com/app/346110/ARK_Survival_Evolved/) | Game UDP: `<server-ip>:7777`, Alt UDP: `<server-ip>:7778`, Query UDP: `<server-ip>:27016` | In **Join ARK**, add the server to favorites with `steam://connect/<server-ip>:7777` or via the in-game favorites list using the game port (7777). |
    | [Counter-Strike 2](https://store.steampowered.com/app/730/CounterStrike_2/) | TCP/UDP: `<server-ip>:27015` | In the developer console, run `connect <server-ip>:27015`, or add the IP/port under Community Servers > Favorites. |
-   | [Minecraft](https://www.minecraft.net/) | TCP: `<server-ip>:25565` | From Multiplayer, choose **Direct Connection** or **Add Server** and enter `<server-ip>` (port 25565). |
+   | [Minecraft](https://www.minecraft.net/) | TCP: `<server-ip>:25565` | **Paper 1.21.1**. Direct Connect to `<server-ip>` (port 25565). No Monsters, 12 Chunk Distance. |
    | [Team Fortress 2](https://store.steampowered.com/app/440/Team_Fortress_2/) | TCP/UDP: `<server-ip>:27017` | Open **Browse Servers** → **Favorites** → **Add a Server**, enter `<server-ip>:27017`, then connect. |
    | [Garry’s Mod](https://store.steampowered.com/app/4000/Garrys_Mod/) | TCP/UDP: `<server-ip>:27018`, Extra UDP: `<server-ip>:27008` | In the main menu, open **Find Multiplayer Game** → **Legacy Browser** → **Favorites**, add `<server-ip>:27018`, then connect. |
    | [Insurgency: Sandstorm](https://store.steampowered.com/app/581320/Insurgency_Sandstorm/) | Game UDP: `<server-ip>:27102`, Query UDP: `<server-ip>:27131` | From the Play menu, use the server browser Filters → Favorites, add `<server-ip>:27102`, then refresh and join. |
