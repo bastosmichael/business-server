@@ -8,42 +8,9 @@
 # Enable/disable stacks
 enable_portainer = true
 enable_ollama    = false
-enable_rust      = false
-enable_ark       = false
-enable_cs2       = false
-enable_minecraft = false
 enable_plex      = false
 enable_jellyfin  = false
 enable_immich    = false
 enable_navidrome = false
 enable_audiobookshelf = false
 enable_nextcloud = false
-enable_tf2       = false
-enable_garrysmod = false
-enable_insurgency_sandstorm = false
-enable_squad     = false
-enable_squad44   = false
-enable_satisfactory = false
-enable_factorio  = false
-enable_eco       = false
-enable_space_engineers = false
-enable_starbound = false
-enable_aoe2de    = false
-enable_palworld  = false
-enable_arma3     = false
-enable_minetest  = false
-enable_openrct2  = false
-enable_openttd   = false
-enable_zeroad    = false
-enable_openra    = false
-enable_teeworlds = false
-enable_xonotic   = false
-enable_ioquake3  = false
-
-# ARK Server Configuration (only required if enable_ark = true)
-# ark_server_password = "your-server-password"
-# ark_admin_password  = "your-admin-password"
-
-# CS2 Server Configuration (only required if enable_cs2 = true)
-# Get your GSLT from: https://steamcommunity.com/dev/managegameservers
-# cs2_gslt = "your-game-server-login-token"
