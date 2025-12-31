@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_SECURE_COOKIE=false
+      - N8N_HOST=0.0.0.0
+    volumes:
+      - n8n-data:/home/node/.n8n
+    profiles:
+      - n8n
+
   text-generation-webui:
     image: atinoda/text-generation-webui:default-cpu
     container_name: text-generation-webui
@@ -12,6 +26,8 @@ services:
     volumes:
       - textgen-ui:/app/text-generation-webui/characters
       - textgen-ui-models:/app/text-generation-webui/models
+    profiles:
+      - text-generation-webui
 
   librechat:
     image: ghcr.io/danny-avila/librechat-dev:latest
@@ -34,6 +50,8 @@ services:
     volumes:
       - librechat-uploads:/app/uploads
       - librechat-logs:/app/logs
+    profiles:
+      - librechat
 
   librechat-mongo:
     image: mongo:7
@@ -41,6 +59,8 @@ services:
     restart: unless-stopped
     volumes:
       - librechat-mongo:/data/db
+    profiles:
+      - librechat
 
   librechat-redis:
     image: redis:7
@@ -49,6 +69,8 @@ services:
     command: [ "redis-server", "--save", "", "--appendonly", "no" ]
     volumes:
       - librechat-redis:/data
+    profiles:
+      - librechat
 
   librechat-meilisearch:
     image: getmeili/meilisearch:v1.10
@@ -58,6 +80,8 @@ services:
       - MEILI_ENV=production
     volumes:
       - librechat-meili:/meili_data
+    profiles:
+      - librechat
 
   comfyui:
     image: yanwk/comfyui-boot:cpu
@@ -67,6 +91,8 @@ services:
       - "8188:8188"
     volumes:
       - comfyui-data:/comfyui
+    profiles:
+      - comfyui
 
   stable-diffusion-webui:
     image: siutin/stable-diffusion-webui-docker:latest-cpu
@@ -80,6 +106,8 @@ services:
       - COMMANDLINE_ARGS=--listen --skip-torch-cuda-test --no-half --use-cpu all
       - CLI_ARGS=--listen --skip-torch-cuda-test --no-half --use-cpu all
     command: [ "bash", "webui.sh", "--listen", "--skip-torch-cuda-test", "--no-half", "--use-cpu", "all" ]
+    profiles:
+      - stable-diffusion-webui
 
   whisper-server:
     image: rhasspy/wyoming-whisper:latest
@@ -90,6 +118,22 @@ services:
       - "10300:10300"
     volumes:
       - whisper-models:/data
+    profiles:
+      - whisper-server
+
+  whisperx:
+    image: ghcr.io/sanchk/whisperx-api:latest
+    container_name: whisperx
+    restart: unless-stopped
+    environment:
+      - PORT=9001
+      - WHISPER_MODEL=small
+    ports:
+      - "9001:9001"
+    volumes:
+      - whisperx-models:/root/.cache/whisperx
+    profiles:
+      - whisperx
 
   piper-tts:
     image: rhasspy/wyoming-piper:latest
@@ -100,6 +144,8 @@ services:
       - "10200:10200"
     volumes:
       - piper-voices:/data
+    profiles:
+      - piper-tts
 
   qdrant:
     image: qdrant/qdrant:latest
@@ -110,6 +156,8 @@ services:
       - "6334:6334"
     volumes:
       - qdrant-data:/qdrant/storage
+    profiles:
+      - qdrant
 
   milvus:
     image: milvusdb/milvus:latest
@@ -121,31 +169,39 @@ services:
       - "9091:9091"
     volumes:
       - milvus-data:/var/lib/milvus
-  # langgraph-studio:
-  #   image: ghcr.io/langchain-ai/langgraph-studio:latest
-  #   container_name: langgraph-studio
-  #   restart: unless-stopped
-  #   environment:
-  #     - PORT=8123
-  #     - LANGGRAPH_ENABLE_OLLAMA=true
-  #     - LANGGRAPH_OLLAMA_URL=http://ollama:11434
-  #   ports:
-  #     - "8123:8123"
-  #   volumes:
-  #     - langgraph-projects:/workspace
+    profiles:
+      - milvus
 
-  # crewai-orchestrator:
-  #   image: ghcr.io/joaomdmoura/crewai-server:latest
-  #   container_name: crewai-orchestrator
-  #   restart: unless-stopped
-  #   environment:
-  #     - PORT=8001
-  #   ports:
-  #     - "8001:8001"
-  #   volumes:
-  #     - crewai-data:/app/data
+  langgraph-studio:
+    image: ghcr.io/langchain-ai/langgraph-studio:latest
+    container_name: langgraph-studio
+    restart: unless-stopped
+    environment:
+      - PORT=8123
+      - LANGGRAPH_ENABLE_OLLAMA=true
+      - LANGGRAPH_OLLAMA_URL=http://ollama:11434
+    ports:
+      - "8123:8123"
+    volumes:
+      - langgraph-projects:/workspace
+    profiles:
+      - langgraph-studio
+
+  crewai-orchestrator:
+    image: ghcr.io/joaomdmoura/crewai-server:latest
+    container_name: crewai-orchestrator
+    restart: unless-stopped
+    environment:
+      - PORT=8001
+    ports:
+      - "8001:8001"
+    volumes:
+      - crewai-data:/app/data
+    profiles:
+      - crewai
 
 volumes:
+  n8n-data:
   textgen-ui:
   textgen-ui-models:
   librechat-uploads:
@@ -156,6 +212,7 @@ volumes:
   comfyui-data:
   sd-webui:
   whisper-models:
+  whisperx-models:
   piper-voices:
   qdrant-data:
   milvus-data:
