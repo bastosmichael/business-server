@@ -25,7 +25,7 @@ resource "null_resource" "bootstrap_docker" {
         sudo mkdir -p /opt/portainer /opt/plex /opt/jellyfin /opt/immich /opt/navidrome /opt/audiobookshelf /opt/nextcloud /opt/nginxproxymanager /opt/startpage /opt/vaultwarden /opt/hoarder /opt/docmost /opt/octoprint /opt/arrfiles /opt/tautulli /opt/overseerr /opt/radarr /opt/sonarr /opt/lidarr /opt/bazarr /opt/prowlarr /opt/qbittorrent /opt/nzbget /opt/homeassistant /opt/zigbee2mqtt /opt/frigate /opt/grafana /opt/influxdb /opt/prometheus /opt/media
         sudo mkdir -p /opt/plex/media /opt/jellyfin/cache /opt/jellyfin/media /opt/immich/library /opt/navidrome/music /opt/audiobookshelf/audiobooks /opt/audiobookshelf/podcasts /opt/nextcloud/html /opt/nginxproxymanager/data /opt/nginxproxymanager/letsencrypt /opt/startpage/config /opt/vaultwarden/data /opt/hoarder/data /opt/docmost/uploads /opt/docmost/db /opt/octoprint/config /opt/arrfiles/config /opt/arrfiles/database /opt/tautulli/config /opt/overseerr/config /opt/radarr/config /opt/sonarr/config /opt/lidarr/config /opt/bazarr/config /opt/prowlarr/config /opt/qbittorrent/config /opt/media/downloads /opt/nzbget/config /opt/homeassistant/config /opt/zigbee2mqtt/data /opt/frigate/config /opt/frigate/cache /opt/grafana/data /opt/influxdb/data /opt/prometheus/data
         sudo chown -R 1000:1000 /opt/plex /opt/portainer /opt/jellyfin /opt/immich /opt/navidrome /opt/audiobookshelf /opt/nextcloud /opt/nginxproxymanager /opt/startpage /opt/vaultwarden /opt/hoarder /opt/docmost /opt/octoprint /opt/arrfiles /opt/tautulli /opt/overseerr /opt/radarr /opt/sonarr /opt/lidarr /opt/bazarr /opt/prowlarr /opt/qbittorrent /opt/nzbget /opt/homeassistant /opt/zigbee2mqtt /opt/frigate /opt/grafana /opt/influxdb /opt/prometheus /opt/media || true
-      REMOTE_SCRIPT
+REMOTE_SCRIPT
     EOT
   }
 }
@@ -291,7 +291,7 @@ resource "null_resource" "deploy_stacks" {
         ${var.enable_grafana ? "cd /opt/grafana && (sudo docker rm -f grafana || true) && retry sudo docker compose up -d" : "echo 'Skipping Grafana'"}
         ${var.enable_influxdb ? "cd /opt/influxdb && (sudo docker rm -f influxdb || true) && retry sudo docker compose up -d" : "echo 'Skipping InfluxDB'"}
         ${var.enable_prometheus ? "cd /opt/prometheus && (sudo docker rm -f prometheus || true) && retry sudo docker compose up -d" : "echo 'Skipping Prometheus'"}
-      REMOTE_SCRIPT
+REMOTE_SCRIPT
     EOT
   }
 }
