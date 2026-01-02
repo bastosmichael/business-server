@@ -127,6 +127,32 @@ resource "null_resource" "deploy_stacks" {
           return 0
         }
 
+        # Wait for containers to finish initial build/health checks
+        function wait_for_containers_to_settle {
+          local timeout=600
+          local interval=5
+          local elapsed=0
+
+          while [ $elapsed -lt $timeout ]; do
+            local unsettled
+            unsettled=$(sudo docker ps -a --format '{{.Names}} {{.Status}}' | \
+              grep -v '^portainer ' | \
+              grep -E 'health: starting|Restarting|Created' || true)
+
+            if [ -z "$unsettled" ]; then
+              echo "Containers have settled."
+              return 0
+            fi
+
+            echo "Waiting for containers to settle... ($elapsed/${timeout}s)"
+            sleep $interval
+            elapsed=$((elapsed + interval))
+          done
+
+          echo "Timed out waiting for containers to settle. Proceeding anyway."
+          return 1
+        }
+
         # Restart DNS resolver to fix "server misbehaving" errors
         sudo systemctl restart systemd-resolved || true
 
@@ -291,6 +317,17 @@ resource "null_resource" "deploy_stacks" {
         ${var.enable_grafana ? "cd /opt/grafana && (sudo docker rm -f grafana || true) && retry sudo docker compose up -d" : "echo 'Skipping Grafana'"}
         ${var.enable_influxdb ? "cd /opt/influxdb && (sudo docker rm -f influxdb || true) && retry sudo docker compose up -d" : "echo 'Skipping InfluxDB'"}
         ${var.enable_prometheus ? "cd /opt/prometheus && (sudo docker rm -f prometheus || true) && retry sudo docker compose up -d" : "echo 'Skipping Prometheus'"}
+
+        # Pause all containers except Portainer after they have settled
+        wait_for_containers_to_settle || true
+        NON_PORTAINER_CONTAINERS=$(sudo docker ps --format '{{.Names}}' | grep -v '^portainer$' || true)
+
+        if [ -n "$NON_PORTAINER_CONTAINERS" ]; then
+          echo "Pausing non-Portainer containers: $NON_PORTAINER_CONTAINERS"
+          echo "$NON_PORTAINER_CONTAINERS" | xargs -r sudo docker pause
+        else
+          echo "No non-Portainer containers are running to pause."
+        fi
 REMOTE_SCRIPT
     EOT
   }
