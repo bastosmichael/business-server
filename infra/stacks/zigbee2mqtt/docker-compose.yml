@@ -11,5 +11,5 @@ services:
       - /opt/zigbee2mqtt/data:/app/data
     environment:
       - TZ=UTC
-    devices:
-      - /dev/ttyACM0:/dev/ttyACM0
+    # devices:
+    #   - /dev/ttyACM0:/dev/ttyACM0

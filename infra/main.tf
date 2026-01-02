@@ -13,7 +13,8 @@ provider "null" {}
 
 resource "null_resource" "bootstrap_docker" {
   triggers = {
-    docker_host = var.docker_host
+    docker_host   = var.docker_host
+    daemon_config = "v1" # Force update for daemon.json entry
   }
   provisioner "local-exec" {
     command = <<EOT
@@ -21,6 +22,13 @@ resource "null_resource" "bootstrap_docker" {
       USER="michael"
 
       ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$USER@$HOST" 'bash -s' <<'REMOTE_SCRIPT'
+        # Configure Docker default address pools (fixes 'all predefined address pools have been fully subnetted')
+        echo '{"default-address-pools":[{"base":"10.0.0.0/8","size":24}]}' | sudo tee /etc/docker/daemon.json > /dev/null
+        sudo systemctl restart docker
+
+        # Restart DNS resolver (just in case)
+        sudo systemctl restart systemd-resolved || true
+
         # Create stack dirs
         sudo mkdir -p /opt/portainer /opt/plex /opt/jellyfin /opt/immich /opt/navidrome /opt/audiobookshelf /opt/nextcloud /opt/nginxproxymanager /opt/startpage /opt/vaultwarden /opt/hoarder /opt/docmost /opt/octoprint /opt/arrfiles /opt/tautulli /opt/overseerr /opt/radarr /opt/sonarr /opt/lidarr /opt/bazarr /opt/prowlarr /opt/qbittorrent /opt/nzbget /opt/homeassistant /opt/zigbee2mqtt /opt/frigate /opt/grafana /opt/influxdb /opt/prometheus /opt/media
         sudo mkdir -p /opt/plex/media /opt/jellyfin/cache /opt/jellyfin/media /opt/immich/library /opt/navidrome/music /opt/audiobookshelf/audiobooks /opt/audiobookshelf/podcasts /opt/nextcloud/html /opt/nginxproxymanager/data /opt/nginxproxymanager/letsencrypt /opt/startpage/config /opt/vaultwarden/data /opt/hoarder/data /opt/docmost/uploads /opt/docmost/db /opt/octoprint/config /opt/arrfiles/config /opt/arrfiles/database /opt/tautulli/config /opt/overseerr/config /opt/radarr/config /opt/sonarr/config /opt/lidarr/config /opt/bazarr/config /opt/prowlarr/config /opt/qbittorrent/config /opt/media/downloads /opt/nzbget/config /opt/homeassistant/config /opt/zigbee2mqtt/data /opt/frigate/config /opt/frigate/cache /opt/grafana/data /opt/influxdb/data /opt/prometheus/data
