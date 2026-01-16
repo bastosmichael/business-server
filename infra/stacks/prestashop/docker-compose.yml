@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  prestashop:
+    image: prestashop/prestashop:latest
+    container_name: prestashop
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      - DB_SERVER=prestashop-db
+      - DB_NAME=prestashop
+      - DB_USER=prestashop
+      - DB_PASSWD=prestashop
+      - PS_INSTALL_AUTO=1
+      - PS_DOMAIN=localhost:8082
+    volumes:
+      - /opt/prestashop/html:/var/www/html
+    depends_on:
+      - prestashop-db
+
+  prestashop-db:
+    image: mariadb:10.6
+    container_name: prestashop-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=prestashop
+      - MYSQL_DATABASE=prestashop
+      - MYSQL_USER=prestashop
+      - MYSQL_PASSWORD=prestashop
+    volumes:
+      - /opt/prestashop/db:/var/lib/mysql

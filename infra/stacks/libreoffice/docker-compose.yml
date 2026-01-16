@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  libreoffice:
+    image: jlesage/libreoffice:latest
+    container_name: libreoffice
+    restart: unless-stopped
+    ports:
+      - "5800:5800"
+    volumes:
+      - /opt/libreoffice/config:/config

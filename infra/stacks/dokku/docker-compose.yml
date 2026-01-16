@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  dokku:
+    image: dokku/dokku:latest
+    container_name: dokku
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - "8004:80"
+      - "8444:443"
+      - "8022:22"
+    volumes:
+      - /opt/dokku/data:/var/lib/dokku
+      - /var/run/docker.sock:/var/run/docker.sock

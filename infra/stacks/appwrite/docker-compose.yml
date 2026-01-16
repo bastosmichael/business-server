@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  appwrite:
+    image: appwrite/appwrite:latest
+    container_name: appwrite
+    restart: unless-stopped
+    ports:
+      - "8091:80"
+    environment:
+      - _APP_ENV=production
+      - _APP_DOMAIN=localhost
+      - _APP_OPENSSL_KEY_V1=change-me
+      - _APP_SYSTEM_EMAIL_ADDRESS=admin@example.com
+      - _APP_SYSTEM_EMAIL_NAME=Appwrite
+      - _APP_DB_HOST=appwrite-db
+      - _APP_DB_USER=appwrite
+      - _APP_DB_PASS=appwrite
+      - _APP_DB_SCHEMA=appwrite
+      - _APP_REDIS_HOST=appwrite-redis
+    volumes:
+      - /opt/appwrite/storage:/storage
+    depends_on:
+      - appwrite-db
+      - appwrite-redis
+
+  appwrite-db:
+    image: mariadb:10.6
+    container_name: appwrite-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=appwrite
+      - MYSQL_DATABASE=appwrite
+      - MYSQL_USER=appwrite
+      - MYSQL_PASSWORD=appwrite
+    volumes:
+      - /opt/appwrite/db:/var/lib/mysql
+
+  appwrite-redis:
+    image: redis:7
+    container_name: appwrite-redis
+    restart: unless-stopped
+    volumes:
+      - /opt/appwrite/redis:/data

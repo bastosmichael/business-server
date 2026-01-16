@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  convex:
+    image: ghcr.io/get-convex/convex-backend:latest
+    container_name: convex
+    restart: unless-stopped
+    ports:
+      - "8092:3210"
+    environment:
+      - CONVEX_SITE_URL=http://localhost:8092
+    volumes:
+      - /opt/convex/data:/convex/data

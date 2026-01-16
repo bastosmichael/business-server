@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  calcom-db:
+    image: postgres:15
+    container_name: calcom-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=calcom
+      - POSTGRES_USER=calcom
+      - POSTGRES_PASSWORD=calcom
+    volumes:
+      - /opt/calcom/db:/var/lib/postgresql/data
+
+  calcom:
+    image: calcom/cal.com:latest
+    container_name: calcom
+    restart: unless-stopped
+    ports:
+      - "8086:3000"
+    environment:
+      - DATABASE_URL=postgresql://calcom:calcom@calcom-db:5432/calcom
+      - NEXT_PUBLIC_WEBAPP_URL=http://localhost:8086
+    volumes:
+      - /opt/calcom/data:/calcom
+    depends_on:
+      - calcom-db

@@ -10,32 +10,86 @@ variable "enable_portainer" {
   default     = true
 }
 
-variable "enable_plex" {
-  description = "Enable Plex stack deployment"
+variable "enable_appflowy" {
+  description = "Enable AppFlowy stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_jellyfin" {
-  description = "Enable Jellyfin stack deployment"
+variable "enable_jitsi" {
+  description = "Enable Jitsi stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_immich" {
-  description = "Enable Immich stack deployment"
+variable "enable_plane" {
+  description = "Enable Plane stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_navidrome" {
-  description = "Enable Navidrome stack deployment"
+variable "enable_nocodb" {
+  description = "Enable NocoDB stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_audiobookshelf" {
-  description = "Enable Audiobookshelf stack deployment"
+variable "enable_coolify" {
+  description = "Enable Coolify stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_dokku" {
+  description = "Enable Dokku stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_pocketbase" {
+  description = "Enable PocketBase stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_appwrite" {
+  description = "Enable Appwrite stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_convex" {
+  description = "Enable Convex stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_supabase" {
+  description = "Enable Supabase stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_prestashop" {
+  description = "Enable PrestaShop stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_gitlab" {
+  description = "Enable GitLab stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_mattermost" {
+  description = "Enable Mattermost stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_erpnext" {
+  description = "Enable ERPNext stack deployment"
   type        = bool
   default     = false
 }
@@ -46,134 +100,50 @@ variable "enable_nextcloud" {
   default     = false
 }
 
-variable "enable_nginxproxymanager" {
-  description = "Enable Nginx Proxy Manager stack deployment"
+variable "enable_mautic" {
+  description = "Enable Mautic stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_startpage" {
-  description = "Enable Startpage/Homepage stack deployment"
+variable "enable_wekan" {
+  description = "Enable Wekan stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_vaultwarden" {
-  description = "Enable Vaultwarden stack deployment"
+variable "enable_docuseal" {
+  description = "Enable Docuseal stack deployment"
   type        = bool
   default     = false
 }
 
-variable "enable_hoarder" {
-  description = "Enable Hoarder stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_docmost" {
-  description = "Enable Docmost stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_octoprint" {
-  description = "Enable OctoPrint stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_arrfiles" {
-  description = "Enable Arrfiles/File Browser stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_tautulli" {
-  description = "Enable Tautulli stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_overseerr" {
-  description = "Enable Overseerr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_radarr" {
-  description = "Enable Radarr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_sonarr" {
-  description = "Enable Sonarr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_lidarr" {
-  description = "Enable Lidarr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_bazarr" {
-  description = "Enable Bazarr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_prowlarr" {
-  description = "Enable Prowlarr stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_qbittorrent" {
-  description = "Enable qBittorrent stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_nzbget" {
-  description = "Enable NZBGet stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_homeassistant" {
-  description = "Enable Home Assistant stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_zigbee2mqtt" {
-  description = "Enable Zigbee2MQTT stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_frigate" {
-  description = "Enable Frigate NVR stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_grafana" {
-  description = "Enable Grafana stack deployment"
-  type        = bool
-  default     = false
-}
-
-variable "enable_influxdb" {
-  description = "Enable InfluxDB stack deployment"
+variable "enable_calcom" {
+  description = "Enable Cal.com stack deployment"
   type        = bool
   default     = false
 }
 
 variable "enable_prometheus" {
   description = "Enable Prometheus stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_matomo" {
+  description = "Enable Matomo stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_libreoffice" {
+  description = "Enable LibreOffice stack deployment"
+  type        = bool
+  default     = false
+}
+
+variable "enable_openproject" {
+  description = "Enable OpenProject stack deployment"
   type        = bool
   default     = false
 }
