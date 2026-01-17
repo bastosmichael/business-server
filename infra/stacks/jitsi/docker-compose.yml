@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   jitsi-web:
-    image: jitsi/web:latest
+    image: jitsi/web:stable
     container_name: jitsi-web
     restart: unless-stopped
     ports:
@@ -26,7 +26,7 @@ services:
       - jitsi-prosody
 
   jitsi-prosody:
-    image: jitsi/prosody:latest
+    image: jitsi/prosody:stable
     container_name: jitsi-prosody
     restart: unless-stopped
     volumes:
@@ -43,7 +43,7 @@ services:
       - TZ=UTC
 
   jitsi-jicofo:
-    image: jitsi/jicofo:latest
+    image: jitsi/jicofo:stable
     container_name: jitsi-jicofo
     restart: unless-stopped
     volumes:
@@ -59,7 +59,7 @@ services:
       - jitsi-prosody
 
   jitsi-jvb:
-    image: jitsi/jvb:latest
+    image: jitsi/jvb:stable
     container_name: jitsi-jvb
     restart: unless-stopped
     ports:
