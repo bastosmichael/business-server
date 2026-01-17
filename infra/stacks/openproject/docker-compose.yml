@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   openproject:
-    image: openproject/community:latest
+    image: openproject/openproject:latest
     container_name: openproject
     restart: unless-stopped
     ports:
