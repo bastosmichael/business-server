@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   appflowy:
-    image: appflowyio/appflowy:latest
+    image: appflowyio/appflowy_client:main
     container_name: appflowy
     restart: unless-stopped
     ports:
