@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  supabase-db:
+    image: supabase/postgres:15.1.0.147
+    container_name: supabase-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=supabase
+      - POSTGRES_USER=supabase
+      - POSTGRES_DB=supabase
+    volumes:
+      - /opt/supabase/db:/var/lib/postgresql/data
+
+  supabase-studio:
+    image: supabase/studio:latest
+    container_name: supabase-studio
+    restart: unless-stopped
+    ports:
+      - "8093:3000"
+    environment:
+      - SUPABASE_URL=http://localhost:8093
+      - SUPABASE_ANON_KEY=change-me
+      - SUPABASE_SERVICE_KEY=change-me
+      - POSTGRES_PASSWORD=supabase
+      - POSTGRES_USER=supabase
+      - POSTGRES_DB=supabase
+    depends_on:
+      - supabase-db

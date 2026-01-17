@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  pocketbase:
+    image: ghcr.io/pocketbase/pocketbase:latest
+    container_name: pocketbase
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    volumes:
+      - /opt/pocketbase/pb_data:/pb_data

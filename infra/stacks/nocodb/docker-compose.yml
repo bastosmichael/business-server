@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    volumes:
+      - /opt/nocodb/data:/usr/app/data

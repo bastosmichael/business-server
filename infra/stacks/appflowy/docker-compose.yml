@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  appflowy:
+    image: appflowyio/appflowy:latest
+    container_name: appflowy
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    volumes:
+      - /opt/appflowy/data:/app/data

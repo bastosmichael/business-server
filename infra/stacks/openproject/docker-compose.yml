@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  openproject:
+    image: openproject/community:latest
+    container_name: openproject
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    environment:
+      - OPENPROJECT_HOST__NAME=localhost:8088
+      - OPENPROJECT_HTTPS=false
+    volumes:
+      - /opt/openproject/data:/var/openproject

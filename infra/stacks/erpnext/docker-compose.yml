@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  erpnext-db:
+    image: mariadb:10.6
+    container_name: erpnext-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=erpnext
+      - MYSQL_DATABASE=erpnext
+      - MYSQL_USER=erpnext
+      - MYSQL_PASSWORD=erpnext
+    volumes:
+      - /opt/erpnext/db:/var/lib/mysql
+
+  erpnext:
+    image: frappe/erpnext:latest
+    container_name: erpnext
+    restart: unless-stopped
+    ports:
+      - "8006:8080"
+    environment:
+      - SITE_NAME=erp.localhost
+      - DB_ROOT_USER=root
+      - DB_ROOT_PASSWORD=erpnext
+      - MYSQL_HOST=erpnext-db
+    volumes:
+      - /opt/erpnext/sites:/home/frappe/frappe-bench/sites
+    depends_on:
+      - erpnext-db

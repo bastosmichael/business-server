@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  jitsi-web:
+    image: jitsi/web:latest
+    container_name: jitsi-web
+    restart: unless-stopped
+    ports:
+      - "8002:80"
+    volumes:
+      - /opt/jitsi/config/web:/config
+    environment:
+      - ENABLE_LETSENCRYPT=0
+      - DISABLE_HTTPS=1
+      - PUBLIC_URL=http://localhost:8002
+      - XMPP_DOMAIN=meet.jitsi
+      - XMPP_AUTH_DOMAIN=auth.meet.jitsi
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jitsi
+      - XMPP_GUEST_DOMAIN=guest.meet.jitsi
+      - JICOFO_AUTH_USER=focus
+      - JICOFO_AUTH_PASSWORD=focuspass
+      - JVB_AUTH_USER=jvb
+      - JVB_AUTH_PASSWORD=jvbpass
+      - TZ=UTC
+    depends_on:
+      - jitsi-prosody
+
+  jitsi-prosody:
+    image: jitsi/prosody:latest
+    container_name: jitsi-prosody
+    restart: unless-stopped
+    volumes:
+      - /opt/jitsi/config/prosody:/config
+    environment:
+      - XMPP_DOMAIN=meet.jitsi
+      - XMPP_AUTH_DOMAIN=auth.meet.jitsi
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jitsi
+      - XMPP_GUEST_DOMAIN=guest.meet.jitsi
+      - JICOFO_AUTH_USER=focus
+      - JICOFO_AUTH_PASSWORD=focuspass
+      - JVB_AUTH_USER=jvb
+      - JVB_AUTH_PASSWORD=jvbpass
+      - TZ=UTC
+
+  jitsi-jicofo:
+    image: jitsi/jicofo:latest
+    container_name: jitsi-jicofo
+    restart: unless-stopped
+    volumes:
+      - /opt/jitsi/config/jicofo:/config
+    environment:
+      - XMPP_DOMAIN=meet.jitsi
+      - XMPP_AUTH_DOMAIN=auth.meet.jitsi
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jitsi
+      - JICOFO_AUTH_USER=focus
+      - JICOFO_AUTH_PASSWORD=focuspass
+      - TZ=UTC
+    depends_on:
+      - jitsi-prosody
+
+  jitsi-jvb:
+    image: jitsi/jvb:latest
+    container_name: jitsi-jvb
+    restart: unless-stopped
+    ports:
+      - "10000:10000/udp"
+    volumes:
+      - /opt/jitsi/config/jvb:/config
+    environment:
+      - XMPP_AUTH_DOMAIN=auth.meet.jitsi
+      - XMPP_INTERNAL_MUC_DOMAIN=internal-muc.meet.jitsi
+      - JVB_AUTH_USER=jvb
+      - JVB_AUTH_PASSWORD=jvbpass
+      - PUBLIC_URL=http://localhost:8002
+      - TZ=UTC
+    depends_on:
+      - jitsi-prosody
